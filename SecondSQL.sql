@@ -127,6 +127,7 @@ select rtrim('      UDEMY     '); #Quita los espacios del lado izquierdo
 select trim('       UDEMY     '); #Quita los espacios de ambos lados
 select replace('mmm.udemy.com','mmm','www'); #Primer parametro cadena, segundo caracter a reemplazar, tercero reemplazo
 select repeat('SQL',3); #Cantidad de veces a repetir
+
 select reverse('Hola');
 select lower('Hola CoMO EstAS');
 select lcase('Hola CoMO EstAS');
@@ -136,3 +137,47 @@ select ucase('Hola CoMO EstAS');
 select concat_ws('/',nombre,precio) from productos;
 select left(nombre,5) from productos;
 select lower(nombre), upper(descripcion) from productos;
+
+select ceiling(12.1); #Redondea los numeros hacia arriba
+select ceiling(precio) from productos;
+select floor(precio) from productos; #Redondea los numeros hacia abajo
+select mod(10,3); #Devuelve el resto de una division
+select power(2,3); #Devuelve el valor de x elevado a la y
+select round(20.12); #Redondea dependiendo el valor. 60 para arriba 40 para abajo
+
+select nombre,descripcion,precio,cantidad from productos order by nombre;
+select nombre,descripcion,precio,cantidad from productos order by nombre desc, precio asc;
+
+select * from productos where (proveedor = 'HP') and (precio <=200);
+select * from productos where (proveedor = 'HP') or (precio <=200);
+select * from productos where (proveedor = 'HP') xor (precio <=200);
+select * from productos where not (proveedor = 'Logitech');
+
+select * from productos where precio>=100 and precio<=150;
+select * from productos where precio between 20 and 40;
+
+select * from productos where proveedor in('HP','La mejor laptop'); #es lo mismo que proveedor='HP' or descripcion = 'La mejor laptop'
+
+select * from productos where descripcion = 'laptop'; #No da nada porque no hay ninguna descripcion que sea SOLO laptop
+select * from productos where descripcion like '%laptop%';  # 2 % >>> contiene. 1 % >>> comienza o termina con
+select * from productos where descripcion not like '%laptop%'; 
+select * from productos where nombre like'%l';
+
+select * from productos where proveedor regexp	'logi'; #Similar a like perp menos especifico 
+select * from productos where proveedor regexp '[hei]';# Trae todos los que tengan h,e y/o i
+select * from productos where proveedor regexp '[a-d]'; #rango de a-d
+select * from productos where proveedor regexp '^l';#Que comience con L
+select * from productos where proveedor regexp 'o.i'; #Que contenga una O luego un caracter cualquiera y luego una I
+select * from productos where proveedor regexp 'o..t'; #Que contenga una O luego un caracter cualquiera y luego una I
+select * from productos where nombre regexp 'a.*a';#Que contenga 2 a
+
+select count(*) from productos; #Devuelve la cantidad de elementos 
+select count(*) from productos where nombre regexp 'a.*a';
+
+select sum(cantidad) from productos;
+select sum(cantidad) from productos where proveedor = 'HP';
+select max(precio) from productos;
+select min(precio) from productos;
+select avg(precio) from productos where nombre like '%Laptop%';
+
+
