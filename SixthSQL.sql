@@ -230,11 +230,56 @@ group by pro.nombre;
 
 select * from cantidadporproveedor;
 
-
 #Insertar datos buscando en valor en otra tabla
 insert into productos(nombre,descripcion, precio, proveedorid, cantidad)
 select 'Teclado', 'El mejor teclado', 100, id, 50
 from proveedor where nombre='Logitech';
 
+
 select * from productos;
+
+alter table productos add proveedor varchar (50); #Creamos el campo proveedor
+update productos join proveedor 
+on productos.proveedorid=proveedor.id set productos.proveedor=proveedor.nombre;  #Le asignamos valor al nuevo campo a través de la otra tabla
+
+alter table productos drop proveedorid;
+drop table proveedor;
+
+#Actualizacion en cascada (si actualizo una tabla que está relacionada con otra, también esta debe modificarse)
+select * from proveedor;
+update productos as p join proveedor as pro on p.proveedorid=pro.id set p.proveedorid=8, pro.id=8 where pro.nombre='Logitech';
+
+#Borrar registros consultando otras tablas (delete-join)
+delete productos from productos join proveedor on productos.proveedorid=proveedor.id where proveedor.nombre = 'HP';
+select * from productos left join proveedor on proveedor.id=productos.proveedorid;
+
+#Borrar registros en cascada
+delete productos, proveedor from productos join proveedor on productos.proveedorid=proveedor.id where proveedor.nombre ='Lenovo';
+
+#Check and repair table --> Verifica si la tabla tubo errores.
+check table productos; #Hay distintas formas de chequeo quick, fast, changed, medium (por default), extended
+
+check table productos fast quick;
+repair table productos; #Si hay algún error.
+
+#Cifrado de datos
+#aes_encrypt('dato a encriptar','Clave para encriptar')
+drop table if exists clientes;
+
+create table clientes (
+nombre varchar (50),
+mail varchar (70),
+tarjetacredito blob,
+primary key (nombre)
+);
+
+insert into clientes values ('Marcos Luis','marcosluis@gmail.com',aes_encrypt('5390700823285988','xyz123'));
+insert into clientes values ('Ganzalez Ana','gonzalesa@gmail.com',aes_encrypt('4567230823285445','xyz123'));
+insert into clientes values ('Lopez German','lopezg@yahoo.com',aes_encrypt('7840704453285443','xyz123'));
+
+select tarjetacredito from clientes; #Esto no muestra el valor de los campos
+
+select cast(aes_decrypt(tarjetacredito,'xyz123')as char) from clientes; #Así se muestran los valores
+  
+
 

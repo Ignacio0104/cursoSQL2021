@@ -33,7 +33,7 @@ delete from alumnos where nombre = 'juan';
 
 update alumnos set edad = 33;
 update alumnos set edad = 6 where nombre = 'Pedro';
-update alumnos set telefono = '156467312',edad=18 where nombre = 'Pedro';
+update alumnos set telefono = '156467312',edad=18 where nombre = 'Pedr	o';
 
 
 
